@@ -18,7 +18,9 @@ To run the GUI interface for CalciumKit, set the current directory of MATLAB to 
 If errors occur while using the GUI, the easiest fix is to simply close the GUI window and restart it by typing "stackroigui" again.
 
 Most of the functionality of the software can also be controlled programmatically, using the functions "stackpca", "stackica", "stackfilter", "stackdfof", and "stackicafindcells". For examples of how to use these functions, look in "dostack.m" and "labmeetingAug27.m".
->> Hotkeys
+
+Hotkeys
+-------------------
 - "l" moves the image +1 frame, "h" moves -1 frame, "j" moves down 1 Z section, and "k" moves up 1 Z section. "q" quits the program.
 
 Loading Images
@@ -56,8 +58,7 @@ For example, in a video with one stimulation that shows first one set of cells l
 For experiments with a single trp stimulation, I typically use 3 ICs. 
 - Use PC specifies the number of principal components to use in the ICA analysis. This necessarily can be at most the number of PCs specified in the first box. Using fewer PCs may result in removing uncorrelated noise from the video, and so allowing for better cell segmentation. (The PCs are sorted by their contribution to the overall signal, and the higher numbered PCs tend to represent mostly noise.) I typically use a value that is about half the "Num PC". 
 
-Example usage: video with 20 frames, 1 trp activation showing 2 distinct sets of cells lighting up. Num PC = 18, Num IC = 3, Use PC = 10.
-
+- Example usage: video with 20 frames, 1 trp activation showing 2 distinct sets of cells lighting up. Num PC = 18, Num IC = 3, Use PC = 10.
 - If "Make ROIs" is checked, the output of the PCA/ICA or filtering is used to automatically create ROIs that are added to the ROI manager. If not, figures pop up with a colored representation of the filtered images or independent components overlaid on a mean image. 
 - The "ROI Threshold" value determines how many ROI to keep from the set of automatically identified ROI. Typically values between 0.5 - 2.5 work well. A lower threshold will result in more ROIs being created, and a higher threshold will result in fewer; the ROIs that pass a higher threshold correspond to regions that are more likely to contain cells or neuropil.
 
