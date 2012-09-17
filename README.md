@@ -22,7 +22,7 @@ Most of the functionality of the software can also be controlled programmaticall
 - "l" moves the image +1 frame, "h" moves -1 frame, "j" moves down 1 Z section, and "k" moves up 1 Z section. "q" quits the program.
 
 Loading Images
-===================
+--------------------
 - Press the "Load Images" button to load a sequence of images from some directory. In the popup window, simply click on the directory containing the image sequence you want to import. 
 - The program expects that the images are arranged in the way they are exported from SlideBook: each time point is its own image file. If it is a 4D capture, each of these images encloses a Z stack as a multipage TIFF (and all the images have the same size Z stack). If it is a 3D capture, each image is a single page TIFF. 
 - NOTE: The program is sensitive to the naming of these files, and may load them out of order if they are not correctly named. For example, it would load "Image10.tiff" before "Image2.tiff". To make sure it imports the images in the correct order; for example, for a series of 100 images label the files "001.tiff", "001.tiff",...,"100.tiff".
@@ -30,11 +30,11 @@ Loading Images
 - Optionally, one can denoise the imported images by selecting the option button "Denoise?" and specifying a filter size in pixels below. Typically, a value of 1-2 pixels works well; above that and the image becomes blurry. Denoising the image applies a median filter to each image in the stack with a filter size given by the number in the "Denoise Size" box.  
 
 Saving Images
-==================
+--------------------------
 Specify a directory to save Plot and DF/F image output and input a prefix that is used for all output.
 
 Viewing Image
-====================
+----------------------
 - The "<" and ">" buttons move the -1 or +1 frame in time.
 - The "Up" and "Down" buttons move the view up and down in the stack while in stack mode. If in Z-projection mode, these movements are disabled.
 - In stack mode, the "Use Z" range specifies the active range of Z slices in the stack to view and to analyze. This setting also restricts the automatic ROI analysis and maximum DF/F image creation to that Z range. This specifies what I refer to as the "active Z range".
@@ -42,7 +42,7 @@ Viewing Image
 - In both stack and Z-projection mode, the "Use T" range specifies the active range of time points. This range restricts which time points are plotted in the Data Viewer window, which frames are analyzed for automatic ROI generation, and which frames are used in the maximum DF/F image creation. This specifies what I refer to as the "active T range".
 
 Analysis: Automatic ROI Creation
-=========================
+----------------
 There are two methods for automatically creating ROIs in CalciumKit. 
 
 ### Filtering
@@ -62,7 +62,7 @@ Example usage: video with 20 frames, 1 trp activation showing 2 distinct sets of
 - The "ROI Threshold" value determines how many ROI to keep from the set of automatically identified ROI. Typically values between 0.5 - 2.5 work well. A lower threshold will result in more ROIs being created, and a higher threshold will result in fewer; the ROIs that pass a higher threshold correspond to regions that are more likely to contain cells or neuropil.
 
 DF/F Image Creation
-==================
+----------------------
 - This panel allows one to make DF/F or DF images from the current movie, using a specified Z and T range. 
 - The "F Options" panel allows one to compute the "F0" baseline fluorescence image in two different ways:
 	- First, the "Rolling" option allows one to compute a per-frame rolling average over the previous N frames, where N is specified by the "Win Size" edit box. Typically values of 2-5 work well for this. Note that "Win Size" must be less than the current minimum T value specified in "Use T" (e.g. it is not allowed for you to average over the previous 3 frames when your active T range starts at frame 2).
@@ -77,7 +77,7 @@ DF/F Image Creation
 - The 'Denoise' slidebar, which ranges in value from 0 - 10, filters the DF/F image with a window of the size of the slider bar's current value (if greater than 0).
 
 Plot Creation
-=================
+-----------------
 * Intensity: plot the raw pixel values from each of the ROIs.
 * DF/F: plot the DF/F values from each ROI, where DF/F = F/F0 - 1. (F0 is the baseline fluorescence.)
 * DF: plot the DF values from each ROI, where DF = F - F0. 
@@ -88,7 +88,7 @@ Plot Creation
 - "Show Stacked Plot" pops up a plot of the traces currently displayed in the Data Viewer, but stacked rather than overlaid. If "Show Numbers?" is checked, a number corresponding to each ROI will be shown next to its trace.
 
 ROI Manager
-=====================
+-----------------
 - "Show Numbers?" shows the number of each ROI overlaid in white. 
 - "Add ROI" allows one to draw an ROI on the image freehand. To draw an ROI, simply sketch the outline of the ROI and then double click to add it to the ROI manager.
 - "Add Ellipse ROI" is the same as "Add ROI" but it creates an elliptical ROI instead of a freehand ROI.
