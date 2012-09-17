@@ -1,0 +1,59 @@
+Main file is dostack.m
+
+HOWTO INSTALL
+---------------------------------------
+1. Install Fiji if you haven't already.
+2. Install PureDenoise (http://bigwww.epfl.ch/algorithms/denoise/)
+3. Change maximum memory to >1Gb (follow instructions in http://www.mathworks.com/support/solutions/en/data/1-18I2C/)
+
+
+TODO LIST (September 2012)
+---------------------
+1. [ ] Add DF/F and DF to GUI (background average and rolling average).
+    - [X] test rolling average and figure out why not computing properly.
+    - [X] test using restricted T range, and why not display properly.
+    - [X] setup overlay on background
+    - [ ] determine if colorbar is accurately representing DF/F (and fix if not)
+    - [X] Allow for max Z proj across all slices in ZSlice mode
+2. X ] Add interface for PCA/ICA and Engert stuff to GUI.
+    - [X] Add Engert ROI finding, and import to ROI datastructure.
+    - [X] import mask from PCA/ICA to roi datastructure in GUI
+    - [X] Fix bug with PCA/ICA not adding with ROI manager properly 
+            (doesn't remove existing ROI, just adds, and doesn't set checkbox correctly.)
+    - [X] subsamples points in ICA/PCA ROIs and interpolate between remaining
+            points so can draw faster. (Alternately, store bitmap with all
+            ROIs drawn on 0 bg, and just display that composited with other images.)
+    - [X] Allow for ROIs to be added to all ZSlices 
+3. [X] Make sure there are boundary checks on all GUI elements.
+    - [X] Filter window size gave error when nothing in edit box.
+4. [ ] Implement saving to specified directory.
+    - [X] Saving plots
+    - [X] Saving DF/F
+    - [ ] Saving ROI masks + ROI with image
+5. [ ] Speed optimizations
+    - [ ] speed up drawing operations (turn off doublebuffering?
+            use CData directly?)
+6. [X] Make popup button with subplot for each ROI
+7. [ ] Transport ROIs between Zstack and slices?
+8. [X] Allow for analysis of subset of Zslices in zproj
+9. [X] Fix bugs with range and not updating ROI list in stack mode.
+10. [X] ZSlice manager stuff
+11. [X] Implement colors based on ZSlices:
+     For stack mode, assign each slice out of ZMax one portion of H in HSV, and then move 
+        through SV space as add ROIs (until wrap around? Or assume have < 100 ROIs before wrapping around)
+        That way, when zprojected, color indicates where ROI came from in stack.
+11. [X] Make plots of filter/ICA stuff without finding ROIs (although not very good lookign)
+12. [X] Add button to make plots of all ZSections when in stack mode, computed on a per-slice basis
+13. [X] Add color panel (rand color, color based on ZSlice, single color using uisetcolor)
+14. [X] Have plot get type and bounds from Image DF/F panel and use that to compute.
+15. [ ] Implement bleach subtraction for plot.
+16. [X ] Implement normalization for plot.
+17. [ ] Fix stacked plot and renumber ROIs in DF/F zproj
+18. [ ] check bg avg for ZProj in stack mode with restricted use T range
+19. [X] Figure out why color is wrong in All Z Slices mode of plot
+20. [ ] Add GUI to toggle on/off ROIs from screen
+21. [ ] Fix show ROI in ZProj for stack mode.
+22. [ ] Add export to AVI
+23. [X] Add error check to add ROI
+24. [X] Make numbers colored white
+25. [ ] Add imellipse 
