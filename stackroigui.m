@@ -22,7 +22,7 @@ function varargout = stackroigui(varargin)
 
 % Edit the above text to modify the response to help stackroigui
 
-% Last Modified by GUIDE v2.5 17-Sep-2012 10:38:11
+% Last Modified by GUIDE v2.5 18-Sep-2012 14:59:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -117,7 +117,8 @@ function stackroigui_OpeningFcn(hObject, eventdata, handles, varargin)
     handles.rgbcolor = [1 0 0];
 
     handles.analysisUseICA = true;
-
+    handles.savepath = '';
+    handles.savename = '';
     %pos = get(handles.imAxes,'Position');        
     %set(handles.imAxes, 'OuterPosition', [0 0 1 1]); %- get(handles.imAxes, 'TightInset') ...
         %* [-1 0 1 0; 0 -1 0 1; 0 0 1 0; 0 0 0 1]);
@@ -196,7 +197,11 @@ function loadButton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    
     foldername = uigetdir();
+    if foldername == 0
+        return;
+    end
     if ispc
         temp = regexp(foldername, '\', 'split');
     else
@@ -630,7 +635,7 @@ function undoRoiButton_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in saveFigureButton.
 function saveFigureButton_Callback(hObject, eventdata, handles)
-if strcmp(handles.savename, '') || strcmp(get(handles.savePrefixEdit, 'String'),'')
+if strcmp(handles.savepath, '') || isempty(get(handles.savePrefixEdit, 'String'))
     msgbox('Need to specify an output directory','','error');
     return;
 end
@@ -641,8 +646,8 @@ else
     sep = '/';
 end
 
-outname = strcat(handles.savename, sep, get(handles.savePrefixEdit, 'String'), '.avi');
-aviobj = VideoWriter(outname{1},'Uncompressed AVI');
+outname = strcat(handles.savepath, sep, get(handles.savePrefixEdit, 'String'), '.avi');
+aviobj = VideoWriter(outname,'Uncompressed AVI');
 aviobj.FrameRate = 6;
 open(aviobj);
 
@@ -665,7 +670,7 @@ close(aviobj);
 function deltaFButton_Callback(hObject, eventdata, handles)
     doSave = get(handles.dfofSaveCheckbox, 'Value');
     if doSave == 1 
-        if strcmp(handles.savename,'') || strcmp(get(handles.savePrefixEdit, 'String'),'')
+        if strcmp(handles.savepath,'') || isempty(get(handles.savePrefixEdit, 'String'))
             msgbox('Need to specify output dir and prefix.','','error');
             return;
         end
@@ -728,8 +733,8 @@ function deltaFButton_Callback(hObject, eventdata, handles)
     if zproj
         handles = showdfofimage(handles, dfofimg, minDfof, maxDfof);
         if doSave                
-            outname = strcat(handles.savename, sep, get(handles.savePrefixEdit, 'String'), '_DF_Zproj.tiff');
-            export_fig(gca, outname{1}, '-native');
+            outname = strcat(handles.savepath, sep, get(handles.savePrefixEdit, 'String'), '_DF_Zproj.tiff');
+            export_fig(gca, outname, '-native');
         end
     else
         currZ = get(handles.currZText, 'String');
@@ -752,8 +757,8 @@ function deltaFButton_Callback(hObject, eventdata, handles)
                 handles = drawroicallback(handles, gca, true);
             end
             if doSave
-                outname = strcat(handles.savename, sep, get(handles.savePrefixEdit, 'String'), '_DF_Z',mat2str(minZ:maxZ),'.tiff');
-                export_fig(gca, outname{1}, '-native');
+                outname = strcat(handles.savepath, sep, get(handles.savePrefixEdit, 'String'), '_DF_Z',mat2str(minZ:maxZ),'.tiff');
+                export_fig(gca, outname, '-native');
             end
             % restore showRoiCheck to it's original state
             if showRoi
@@ -765,8 +770,8 @@ function deltaFButton_Callback(hObject, eventdata, handles)
                 set(handles.currZText, 'String', num2str(zidx(i)));
                 handles = showdfofimage(handles, squeeze(dfofimg(:,:,:,zidx(i))), minDfof, maxDfof);
                 if doSave
-                    outname = strcat(handles.savename, sep, get(handles.savePrefixEdit, 'String'), '_DF_Z',num2str(zidx(i)),'.tiff');
-                    export_fig(gca, outname{1}, '-native');
+                    outname = strcat(handles.savepath, sep, get(handles.savePrefixEdit, 'String'), '_DF_Z',num2str(zidx(i)),'.tiff');
+                    export_fig(gca, outname, '-native');
                 end
             end
         end
@@ -1009,7 +1014,7 @@ function saveDirectoryButton_Callback(hObject, eventdata, handles)
     foldername = uigetdir();
     temp = regexp(foldername, '/', 'split');
     dirname = temp(end);
-    set(handles.outputText, 'String', dirname);
+    set(handles.outputText, 'String', foldername);
     handles.savename = dirname;
     handles.savepath = foldername;
     guidata(hObject, handles);
@@ -1484,4 +1489,32 @@ function addEllipseRoiButton_Callback(hObject, eventdata, handles)
     handles = slidercallbackdrawimageslice(handles);
     handles = drawroicallback(handles);
     handles = updatedataaxis( handles );
+    guidata(hObject, handles);
+
+
+% --- Executes on button press in savePlotButton.
+function savePlotButton_Callback(hObject, eventdata, handles)
+    if strcmp(handles.savename, '') || isempty(get(handles.savePrefixEdit, 'String'))
+        msgbox('Need to specify an output directory','','error');
+        return;
+    end
+
+    if ispc
+        sep = '\';
+    else
+        sep = '/';
+    end
+    h = figure;    
+    handles = updatedataaxis( handles, gca);
+    set(gca, 'Color','white');    
+    set(gca,  'XColor','black');
+    set(gca,'YColor', 'black');
+    set(gcf, 'Color', 'white');
+    set(gcf, 'Units', 'pixels');
+    set(gcf, 'Position', [0 0 handles.width, round(handles.height/2)]);
+    axis tight;
+    %set(gca, 'Position', [0 0 handles.width round(handles.height/2)]);
+    outname = strcat(handles.savepath, sep, get(handles.savePrefixEdit, 'String'), '_Plot.tiff');
+    export_fig(gca, outname, '-native');
+    %close(h);
     guidata(hObject, handles);
