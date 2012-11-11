@@ -1,12 +1,3 @@
-%%
-%% CALCIUM IMAGING ANALYSIS SOFTWARE 
-%% KRISTIN SCOTT LAB -- UC BERKELEY
-%% (C) 2012 THE REGENTS OF THE UNIVERSITY OF CALIFORNIA
-%% 
-%% 
-%% SOFTWARE WRITTEN BY WILL ALLEN (we.allen@gmail.com)
-%%  
-
 function out = imoverlay(in, mask, color)
 %IMOVERLAY Create a mask-based image overlay.
 %   OUT = IMOVERLAY(IN, MASK, COLOR) takes an input image, IN, and a binary
